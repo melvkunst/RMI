@@ -5,17 +5,18 @@ public class ContaBancariaImpl extends UnicastRemoteObject implements ContaBanca
     private double saldo;
 
     protected ContaBancariaImpl() throws RemoteException {
-        saldo = 0.0;
+        super();
+        this.saldo = 0.0;
     }
 
     @Override
-    public void deposita(double valor) throws RemoteException {
+    public synchronized void deposita(double valor) throws RemoteException {
         saldo += valor;
         System.out.println("Depositado: " + valor + " | Saldo atual: " + saldo);
     }
 
     @Override
-    public void retira(double valor) throws RemoteException {
+    public synchronized void retira(double valor) throws RemoteException {
         if (saldo >= valor) {
             saldo -= valor;
             System.out.println("Retirado: " + valor + " | Saldo atual: " + saldo);
@@ -25,7 +26,7 @@ public class ContaBancariaImpl extends UnicastRemoteObject implements ContaBanca
     }
 
     @Override
-    public double saldo() throws RemoteException {
+    public synchronized double saldo() throws RemoteException {
         return saldo;
     }
 }
